@@ -1,17 +1,27 @@
-import React, { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login({ setUser }) {
-  const [data, setData] = useState({ email: "", password: "" });
+export default function Login() {
+  const nav = useNavigate();
+
+  const [data, setData] = useState({
+    email: "",
+    password: ""
+  });
 
   const login = async () => {
-    const res = await axios.post("http://localhost:5001/api/auth/login", data);
+    try {
+      const res = await axios.post("http://localhost:5000/api/login", data);
 
-    alert(res.data.msg);
+      if (res.data.role === "organiser") {
+        nav("/organiser");
+      } else {
+        nav("/participant");
+      }
 
-    if (res.data.user) {
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      setUser(res.data.user);
+    } catch {
+      alert("Invalid login");
     }
   };
 
@@ -19,12 +29,12 @@ function Login({ setUser }) {
     <div>
       <h2>Login</h2>
 
-      <input placeholder="Email" onChange={e=>setData({...data,email:e.target.value})}/><br/><br/>
-      <input type="password" placeholder="Password" onChange={e=>setData({...data,password:e.target.value})}/><br/><br/>
+      <input placeholder="Email" onChange={e => setData({...data, email:e.target.value})}/>
+      <input type="password" placeholder="Password" onChange={e => setData({...data, password:e.target.value})}/>
 
       <button onClick={login}>Login</button>
+
+      <p onClick={() => nav("/register")}>Register</p>
     </div>
   );
 }
-
-export default Login;
