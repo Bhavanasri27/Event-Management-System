@@ -5,11 +5,15 @@ export default function Participant() {
   const [code, setCode] = useState("");
   const [event, setEvent] = useState(null);
 
+  // ✅ Use deployed backend URL
+  const API = "https://event-management-system-2-el82.onrender.com";
+
   const fetchEvent = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/event/${code}`);
+      const res = await axios.get(`${API}/api/event/${code}`);
       setEvent(res.data);
-    } catch {
+    } catch (err) {
+      console.log(err);
       alert("Invalid Code");
     }
   };
@@ -18,7 +22,11 @@ export default function Participant() {
     <div>
       <h2>Participant</h2>
 
-      <input placeholder="Enter Code" onChange={e => setCode(e.target.value)}/>
+      <input
+        placeholder="Enter Code"
+        onChange={e => setCode(e.target.value)}
+      />
+
       <button onClick={fetchEvent}>Submit</button>
 
       {event && (

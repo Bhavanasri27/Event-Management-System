@@ -10,9 +10,12 @@ export default function Login() {
     password: ""
   });
 
+  // ✅ Use deployed backend URL
+  const API = "https://event-management-system-2-el82.onrender.com";
+
   const login = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/login", data);
+      const res = await axios.post(`${API}/api/login`, data);
 
       if (res.data.role === "organiser") {
         nav("/organiser");
@@ -20,7 +23,8 @@ export default function Login() {
         nav("/participant");
       }
 
-    } catch {
+    } catch (err) {
+      console.log(err);
       alert("Invalid login");
     }
   };
@@ -29,8 +33,16 @@ export default function Login() {
     <div>
       <h2>Login</h2>
 
-      <input placeholder="Email" onChange={e => setData({...data, email:e.target.value})}/>
-      <input type="password" placeholder="Password" onChange={e => setData({...data, password:e.target.value})}/>
+      <input
+        placeholder="Email"
+        onChange={e => setData({ ...data, email: e.target.value })}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={e => setData({ ...data, password: e.target.value })}
+      />
 
       <button onClick={login}>Login</button>
 

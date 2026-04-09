@@ -11,19 +11,42 @@ export default function Organiser() {
 
   const [code, setCode] = useState("");
 
+  // ✅ Use deployed backend URL
+  const API = "https://event-management-system-2-el82.onrender.com";
+
   const createEvent = async () => {
-    const res = await axios.post("http://localhost:5000/api/create-event", form);
-    setCode(res.data.code);
+    try {
+      const res = await axios.post(`${API}/api/create-event`, form);
+      setCode(res.data.code);
+    } catch (err) {
+      console.log(err);
+      alert("Error creating event");
+    }
   };
 
   return (
     <div>
       <h2>Organiser</h2>
 
-      <input placeholder="Title" onChange={e => setForm({...form, title:e.target.value})}/>
-      <input type="date" onChange={e => setForm({...form, date:e.target.value})}/>
-      <input type="time" onChange={e => setForm({...form, time:e.target.value})}/>
-      <input placeholder="Venue" onChange={e => setForm({...form, venue:e.target.value})}/>
+      <input
+        placeholder="Title"
+        onChange={e => setForm({ ...form, title: e.target.value })}
+      />
+
+      <input
+        type="date"
+        onChange={e => setForm({ ...form, date: e.target.value })}
+      />
+
+      <input
+        type="time"
+        onChange={e => setForm({ ...form, time: e.target.value })}
+      />
+
+      <input
+        placeholder="Venue"
+        onChange={e => setForm({ ...form, venue: e.target.value })}
+      />
 
       <button onClick={createEvent}>Generate Code</button>
 

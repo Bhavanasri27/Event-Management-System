@@ -11,12 +11,16 @@ export default function Register() {
     role: "organiser"
   });
 
+  // ✅ Use deployed backend URL
+  const API = "https://event-management-system-2-el82.onrender.com";
+
   const register = async () => {
     try {
-      await axios.post("http://localhost:5000/api/register", data);
+      await axios.post(`${API}/api/register`, data);
       alert("Registered Successfully");
-      nav("/login"); // go to login after register
-    } catch {
+      nav("/login");
+    } catch (err) {
+      console.log(err);
       alert("Error");
     }
   };
