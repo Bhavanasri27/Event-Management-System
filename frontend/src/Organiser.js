@@ -12,7 +12,7 @@ export default function Organiser() {
   const [code, setCode] = useState("");
 
   // ✅ Use deployed backend URL
-  const API = "https://event-management-system-2-el82.onrender.com";
+  const API = "http://localhost:5000";
 
   const createEvent = async () => {
     try {
